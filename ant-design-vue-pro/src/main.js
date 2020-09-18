@@ -6,6 +6,7 @@ import store from "./store";
 import { Button } from "ant-design-vue";
 Vue.config.productionTip = false;
 
+// 全局注册
 Vue.use(Button);
 
 new Vue({

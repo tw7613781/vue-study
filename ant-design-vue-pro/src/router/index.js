@@ -7,19 +7,25 @@ import NotFound from "../views/404";
 Vue.use(VueRouter);
 
 const routes = [
+  // 嵌套路由
   {
     path: "/user",
     component: () =>
       import(/* webpackChunkName: "layout" */ "../layouts/UserLayout"),
     children: [
       {
+        //跳转路由
         path: "/user",
         redirect: "/user/login"
       },
       {
+        //路径和名字
         path: "/user/login",
         name: "login",
+        //对应的组件
         component: () =>
+        // 异步加载和webpack打包的指定包名称，也叫做懒加载lazy load
+        // 只有当访问到这个路由的时候再加载这个webpack打包好之后的js
           import(/* webpackChunkName: "user" */ "../views/User/Login")
       },
       {
@@ -43,6 +49,7 @@ const routes = [
       {
         path: "/dashboard",
         name: "dashboard",
+        // <router-view></router-view>的render形式
         component: { render: h => h("router-view") },
         children: [
           {
@@ -110,6 +117,7 @@ const routes = [
   {
     path: "*",
     name: "404",
+    // 不用异步加载
     component: NotFound
   }
 ];
@@ -122,6 +130,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   NProgress.start();
+  // 必须调用next()，才会继续往下走
   next();
 });
 
